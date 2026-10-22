@@ -15,7 +15,7 @@
  */
 
 import { spawnSync } from 'node:child_process';
-import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs';
+import { existsSync, readFileSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -75,6 +75,13 @@ if (build.code !== 0) {
 // ---- 2. upstream suite ----------------------------------------------------
 
 if (!failed) {
+	// Upstream instruments its own source into a cache directory. Two of its
+	// tests assert on the *behaviour* of that cache, so a leftover cache from a
+	// previous run makes them fail. Clearing it is what makes the suite
+	// reproducible; without this the same command reports 21 or 22 failures
+	// depending on history.
+	rmSync(resolve(root, '.cache/test-instrument'), { recursive: true, force: true });
+
 	const up = run('upstream suite', [resolve(root, 'scripts/test.mjs')]);
 	const counts = countTests(up.out);
 	const titles = failureTitles(up.out);
@@ -135,6 +142,9 @@ if (!failed) {
 // ---- 3. tempo tests -------------------------------------------------------
 
 if (!failed) {
+	rmSync(resolve(root, '.cache/tempo'), { recursive: true, force: true });
+	mkdirSync(resolve(root, '.cache/tempo'), { recursive: true });
+
 	const t = run('tempo tests', [
 		'--import', './scripts/register-hooks.mjs',
 		resolve(root, 'node_modules/mocha/bin/mocha.js'),
