@@ -68,7 +68,7 @@ const minifyOpts = {
 	codegen: { removeWhitespace: true, legalComments: 'inline' },
 };
 
-export default [
+const upstreamBuilds = [
 	{
 		input: './src/uPlot.js',
 		output: {
@@ -77,7 +77,6 @@ export default [
 			format: 'es',
 			minify: false,
 			banner,
-		//	sourcemap: true,
 		},
 	},
 	{
@@ -123,3 +122,47 @@ export default [
 		]
 	},
 ];
+
+const tempoBuilds = [
+	{
+		input: './src/tempo.bundle.js',
+		output: {
+			name: 'Tempo',
+			file: './dist/tempo.esm.js',
+			format: 'es',
+			minify: false,
+			banner,
+		},
+	},
+	{
+		input: './src/tempo.bundle.js',
+		output: {
+			name: 'Tempo',
+			file: './dist/tempo.iife.js',
+			format: 'iife',
+			esModule: false,
+			banner,
+		},
+	},
+	{
+		input: './src/tempo.bundle.js',
+		output: {
+			name: 'Tempo',
+			file: './dist/tempo.iife.min.js',
+			format: 'iife',
+			esModule: false,
+			banner: "/*! tempo-replay-chart " + ver + " | built on " + urlVer + " */",
+			minify: minifyOpts,
+			comments: { legal: true, annotation: false, jsdoc: false },
+		},
+		plugins: [
+			trimTrailingWhitespace(),
+		]
+	},
+];
+
+const [upstreamUplot, upstreamCjs, upstreamIife, upstreamIifeMin] = upstreamBuilds;
+
+export default process.env.TEMPO_REBUILD_UPSTREAM
+	? [...upstreamBuilds, ...tempoBuilds]
+	: tempoBuilds;

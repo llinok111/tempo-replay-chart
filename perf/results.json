@@ -1,0 +1,326 @@
+{
+  "meta": {
+    "ua": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/155.0.0.0 Safari/537.36 Edg/155.0.0.0",
+    "dpr": 1,
+    "cores": 16,
+    "heapLimitMB": 3586,
+    "at": "2026-10-22T08:11:24.390Z",
+    "scales": [
+      1000,
+      10000,
+      100000,
+      500000,
+      1000000
+    ],
+    "reps": 10,
+    "executable": "auto-detected"
+  },
+  "pipeline": {
+    "1000": {
+      "rows": 1000,
+      "rendered": 1000,
+      "budget": 2400,
+      "sanitize": {
+        "n": 10,
+        "min": 0.1,
+        "p50": 0.3,
+        "p95": 0.8,
+        "p99": 0.8,
+        "max": 0.8,
+        "mean": 0.42
+      },
+      "decimate": {
+        "n": 10,
+        "min": 0,
+        "p50": 0,
+        "p95": 0.1,
+        "p99": 0.1,
+        "max": 0.1,
+        "mean": 0.01
+      },
+      "mountMs": 4.8,
+      "setData": {
+        "n": 8,
+        "min": 0.2,
+        "p50": 0.4,
+        "p95": 1.1,
+        "p99": 1.1,
+        "max": 1.1,
+        "mean": 0.5625
+      },
+      "renderP50": 0,
+      "renderMax": 0.1,
+      "sanitizeReportP50": 0.3
+    },
+    "10000": {
+      "rows": 10000,
+      "rendered": 2400,
+      "budget": 2400,
+      "sanitize": {
+        "n": 10,
+        "min": 0.8,
+        "p50": 0.9,
+        "p95": 1.6,
+        "p99": 1.6,
+        "max": 1.6,
+        "mean": 0.98
+      },
+      "decimate": {
+        "n": 10,
+        "min": 0.1,
+        "p50": 0.2,
+        "p95": 1.6,
+        "p99": 1.6,
+        "max": 1.6,
+        "mean": 0.36
+      },
+      "mountMs": 4.4,
+      "setData": {
+        "n": 8,
+        "min": 1,
+        "p50": 1.5,
+        "p95": 2.7,
+        "p99": 2.7,
+        "max": 2.7,
+        "mean": 1.7875
+      },
+      "renderP50": 0,
+      "renderMax": 0.1,
+      "sanitizeReportP50": 0.9
+    },
+    "100000": {
+      "rows": 100000,
+      "rendered": 2400,
+      "budget": 2400,
+      "sanitize": {
+        "n": 10,
+        "min": 5.9,
+        "p50": 7.9,
+        "p95": 13.9,
+        "p99": 13.9,
+        "max": 13.9,
+        "mean": 8.69
+      },
+      "decimate": {
+        "n": 10,
+        "min": 0.5,
+        "p50": 0.7,
+        "p95": 1.4,
+        "p99": 1.4,
+        "max": 1.4,
+        "mean": 0.82
+      },
+      "mountMs": 11.6,
+      "setData": {
+        "n": 8,
+        "min": 6.4,
+        "p50": 9.1,
+        "p95": 15.3,
+        "p99": 15.3,
+        "max": 15.3,
+        "mean": 9.8
+      },
+      "renderP50": 0,
+      "renderMax": 0.2,
+      "sanitizeReportP50": 6.4
+    },
+    "500000": {
+      "rows": 500000,
+      "rendered": 2400,
+      "budget": 2400,
+      "sanitize": {
+        "n": 10,
+        "min": 26.1,
+        "p50": 28.8,
+        "p95": 45.3,
+        "p99": 45.3,
+        "max": 45.3,
+        "mean": 32
+      },
+      "decimate": {
+        "n": 10,
+        "min": 1.7,
+        "p50": 1.9,
+        "p95": 4.1,
+        "p99": 4.1,
+        "max": 4.1,
+        "mean": 2.5
+      },
+      "mountMs": 44.2,
+      "setData": {
+        "n": 8,
+        "min": 37.4,
+        "p50": 37.8,
+        "p95": 74.3,
+        "p99": 74.3,
+        "max": 74.3,
+        "mean": 48.1125
+      },
+      "renderP50": 0,
+      "renderMax": 0.1,
+      "sanitizeReportP50": 30.1
+    },
+    "1000000": {
+      "rows": 1000000,
+      "rendered": 2400,
+      "budget": 2400,
+      "sanitize": {
+        "n": 10,
+        "min": 65.2,
+        "p50": 77.3,
+        "p95": 203.6,
+        "p99": 203.6,
+        "max": 203.6,
+        "mean": 95.66
+      },
+      "decimate": {
+        "n": 10,
+        "min": 3.1,
+        "p50": 3.8,
+        "p95": 24.5,
+        "p99": 24.5,
+        "max": 24.5,
+        "mean": 6.46
+      },
+      "mountMs": 173.5,
+      "setData": {
+        "n": 8,
+        "min": 158.4,
+        "p50": 209.1,
+        "p95": 247.4,
+        "p99": 247.4,
+        "max": 247.4,
+        "mean": 216.1625
+      },
+      "renderP50": 0,
+      "renderMax": 0.1,
+      "sanitizeReportP50": 138.1
+    }
+  },
+  "transitions": {
+    "wallMs": 702.8,
+    "frames": 43,
+    "fpsMean": 60,
+    "intervalP50": 16.7,
+    "intervalP95": 16.7,
+    "intervalMax": 16.8,
+    "frameCostP50": 0,
+    "frameCostP95": 2.8,
+    "frameCostMax": 3.3,
+    "droppedOver20ms": 0,
+    "payloadPoints": 2400,
+    "modesSeen": [
+      "values"
+    ],
+    "framesRendered": 53
+  },
+  "replay": {
+    "20000": {
+      "wallMs": 1513.4,
+      "frames": 91,
+      "fpsMean": 59.3,
+      "intervalP50": 16.7,
+      "intervalP95": 16.8,
+      "intervalMax": 33.3,
+      "frameCostP50": 0,
+      "frameCostP95": 0,
+      "frameCostMax": 0.1,
+      "droppedOver20ms": 1,
+      "rows": 20000,
+      "rendered": 2400,
+      "renderMsP50": 0,
+      "renderMsP95": 0.1,
+      "renderMsMax": 0.1,
+      "renderSamples": 93
+    },
+    "1000000": {
+      "wallMs": 1511.8,
+      "frames": 83,
+      "fpsMean": 44.9,
+      "intervalP50": 16.7,
+      "intervalP95": 33.3,
+      "intervalMax": 383.3,
+      "frameCostP50": 0,
+      "frameCostP95": 0,
+      "frameCostMax": 0.1,
+      "droppedOver20ms": 7,
+      "rows": 1000000,
+      "rendered": 2400,
+      "renderMsP50": 0,
+      "renderMsP95": 0.1,
+      "renderMsMax": 0.1,
+      "renderSamples": 85
+    }
+  },
+  "live": {
+    "wallMs": 1508.9,
+    "frames": 91,
+    "fpsMean": 60,
+    "intervalP50": 16.7,
+    "intervalP95": 16.7,
+    "intervalMax": 16.8,
+    "frameCostP50": 0,
+    "frameCostP95": 0.1,
+    "frameCostMax": 0.4,
+    "droppedOver20ms": 0,
+    "pushed": 920,
+    "requests": 920,
+    "flushes": 91,
+    "coalesced": 829,
+    "coalesceRatio": 0.099,
+    "window": 920
+  },
+  "fidelity": {
+    "lttb": {
+      "kept": 2400,
+      "selectMs": 4.2,
+      "maxNormError": 0.288808,
+      "meanNormError": 0.061195,
+      "peakLossRatio": 0,
+      "ySpan": 64.63,
+      "pixel": {
+        "width": 1002,
+        "height": 360,
+        "maxDiffPx": 48.58,
+        "meanDiffPx": 10.35,
+        "worstCol": 752,
+        "columnsCompared": 1002
+      },
+      "note": "measured against the raw series"
+    },
+    "minmax": {
+      "kept": 2402,
+      "selectMs": 9.4,
+      "maxNormError": 0.313832,
+      "meanNormError": 0.07032,
+      "peakLossRatio": 0,
+      "ySpan": 64.63,
+      "pixel": {
+        "width": 1002,
+        "height": 360,
+        "maxDiffPx": 99.29,
+        "meanDiffPx": 6.36,
+        "worstCol": 195,
+        "columnsCompared": 1002
+      },
+      "note": "measured against the raw series"
+    },
+    "none": {
+      "kept": 2400,
+      "selectMs": 4.1,
+      "maxNormError": 0.288808,
+      "meanNormError": 0.061195,
+      "peakLossRatio": 0,
+      "ySpan": 64.63,
+      "pixel": {
+        "width": 1002,
+        "height": 360,
+        "maxDiffPx": 48.58,
+        "meanDiffPx": 10.35,
+        "worstCol": 752,
+        "columnsCompared": 1002
+      },
+      "note": "index list still LTTB; \"none\" only skips decimation in the chart"
+    }
+  }
+}

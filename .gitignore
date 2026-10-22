@@ -11,3 +11,9 @@ test/output
 /demos/lib/bokeh-gl-3.10.0.highp.js
 /demos/lib/bokeh-api-3.10.0.js
 .patch
+
+# ---- tempo-layer additions ----
+/shots
+/perf/history.json
+.cache/
+*.log

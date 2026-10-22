@@ -1,0 +1,36 @@
+tempo-replay-chart
+==================
+
+A fork of uPlot (https://github.com/leeoniya/uPlot), MIT licensed.
+uPlot's original LICENSE file is preserved verbatim at LICENSE.
+
+Additions in this repository
+----------------------------
+
+Copyright (c) 2026 llinok111
+
+The following files and directories are original work and are released under
+the same MIT terms as uPlot:
+
+  src/tempo/*.js
+  src/tempo.bundle.js
+  demo/**
+  perf/**
+  scripts/browser-probe.mjs
+  scripts/verify-visual.mjs
+  scripts/bench.mjs
+  scripts/sync-demo.mjs
+  scripts/check-all.mjs
+  test/tempo/**
+  docs/**
+
+No file under upstream's src/ (excluding src/tempo/), test/, demos/, bench/ or
+dist/ was modified. The tempo layer attaches through uPlot's public API only;
+see docs/upstream-diff.md for the file-by-file accounting and for the recorded
+upstream test baseline.
+
+uPlot's copyright notice, as it appears in its own LICENSE (verbatim):
+
+  The MIT License (MIT)
+
+  Copyright (c) 2022 Leon Sorokin

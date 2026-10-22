@@ -1,67 +1,74 @@
 {
-  "name": "uplot",
-  "version": "1.6.32",
-  "description": "A small, fast chart for time series, lines, areas, ohlc & bars",
-  "type": "module",
-  "main": "./dist/uPlot.cjs.js",
-  "module": "./dist/uPlot.esm.js",
-  "typings": "./dist/uPlot.d.ts",
-  "scripts": {
-    "build": "rolldown -c",
-    "bench:legend": "node --max-old-space-size=96 ./scripts/bench-legend.mjs",
-    "demos": "node ./scripts/demos.mjs",
-    "test": "node ./scripts/test.mjs",
-    "test:server": "mocha test/server/*.mjs",
-    "test:update": "UPDATE=1 node ./scripts/test.mjs"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/leeoniya/uPlot.git"
-  },
-  "files": [
-    "package.json",
-    "README.md",
-    "LICENSE",
-    "dist"
-  ],
-  "keywords": [
-    "micro",
-    "time",
-    "series",
-    "line",
-    "area",
-    "trend",
-    "bar",
-    "ohlc",
-    "plot",
-    "chart",
-    "graph"
-  ],
-  "author": "Leon Sorokin <leeoniya@gmail.com>",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/leeoniya/uPlot/issues"
-  },
-  "homepage": "https://github.com/leeoniya/uPlot#readme",
-  "devDependencies": {
-    "@happy-dom/global-registrator": "^21.0.4",
-    "happy-dom": "^21.0.4",
-    "istanbul-lib-coverage": "^3.2.2",
-    "istanbul-lib-instrument": "^6.0.3",
-    "istanbul-lib-report": "^3.0.1",
-    "istanbul-smart-text-reporter": "^1.1.5",
-    "json-stringify-pretty-compact": "^4.0.0",
-    "mocha": "^12.0.3",
-    "rolldown": "^1.2.15",
-    "test-exclude": "^8.0.0"
-  },
-  "nyc": {
-    "include": [
-      "dist/**/*.esm.js",
-      "src/**/*.js"
-    ],
-    "exclude": [
-      "src/paths/catmullRomCentrip.js"
-    ]
-  }
+	"name": "uplot",
+	"version": "1.6.32",
+	"description": "A small, fast chart for time series, lines, areas, ohlc & bars",
+	"type": "module",
+	"main": "./dist/uPlot.cjs.js",
+	"module": "./dist/uPlot.esm.js",
+	"typings": "./dist/uPlot.d.ts",
+	"scripts": {
+		"build": "rolldown -c",
+		"bench:legend": "node --max-old-space-size=96 ./scripts/bench-legend.mjs",
+		"demos": "node ./scripts/demos.mjs",
+		"test": "node ./scripts/test.mjs",
+		"test:server": "mocha test/server/*.mjs",
+		"test:update": "UPDATE=1 node ./scripts/test.mjs",
+		"test:tempo": "node --import ./scripts/register-hooks.mjs ./node_modules/mocha/bin/mocha.js \"test/tempo/*.test.mjs\"",
+		"verify": "node ./scripts/verify-visual.mjs",
+		"bench": "node ./scripts/bench.mjs",
+		"bench:quick": "node ./scripts/bench.mjs --quick",
+		"demo:sync": "node ./scripts/sync-demo.mjs",
+		"check": "node ./scripts/check-all.mjs",
+		"sweep": "node ./scripts/fidelity-sweep.mjs"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/leeoniya/uPlot.git"
+	},
+	"files": [
+		"package.json",
+		"README.md",
+		"LICENSE",
+		"dist"
+	],
+	"keywords": [
+		"micro",
+		"time",
+		"series",
+		"line",
+		"area",
+		"trend",
+		"bar",
+		"ohlc",
+		"plot",
+		"chart",
+		"graph"
+	],
+	"author": "Leon Sorokin <leeoniya@gmail.com>",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/leeoniya/uPlot/issues"
+	},
+	"homepage": "https://github.com/leeoniya/uPlot#readme",
+	"devDependencies": {
+		"@happy-dom/global-registrator": "^21.0.4",
+		"happy-dom": "^21.0.4",
+		"istanbul-lib-coverage": "^3.2.2",
+		"istanbul-lib-instrument": "^6.0.3",
+		"istanbul-lib-report": "^3.0.1",
+		"istanbul-smart-text-reporter": "^1.1.5",
+		"json-stringify-pretty-compact": "^4.0.0",
+		"mocha": "^12.0.3",
+		"rolldown": "^1.2.15",
+		"test-exclude": "^8.0.0"
+	},
+	"nyc": {
+		"include": [
+			"dist/**/*.esm.js",
+			"src/**/*.js"
+		],
+		"exclude": [
+			"src/paths/catmullRomCentrip.js"
+		]
+	}
 }

@@ -1,0 +1,32 @@
+{
+  "note": "Recorded before any tempo-layer change. Platform-specific: Windows snapshot text offsets and path separators.",
+  "recordedAt": "2026-10-22T08:03:27.226Z",
+  "passing": 4070,
+  "failing": 21,
+  "pending": 46,
+  "failures": [
+    "collects every mismatched plot and removes the report after a passing run",
+    "supports CLI default, --original, --revert, and --help from another working directory",
+    "handles --revert from another working directory, provides help, and rejects unknown flags",
+    "0-0",
+    "0-1",
+    "0-2",
+    "0-8",
+    "0-9",
+    "0-10",
+    "0-11",
+    "0-5",
+    "0-6",
+    "0-3",
+    "consolidated failure report",
+    "Bokeh WebGL highp patch script",
+    "ECharts heatmap patch script",
+    "missing-data",
+    "path-gap-clip",
+    "high-low-bands",
+    "wind-direction",
+    "no-data",
+    "nearest-non-null",
+    "log-scales2"
+  ]
+}

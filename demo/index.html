@@ -1,0 +1,395 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tempo — 可回放的时间序列图表</title>
+<link rel="stylesheet" href="./vendor/uPlot.min.css">
+<style>
+	:root {
+		--ink: #241f1b;
+		--ink-2: #4a413a;
+		--muted: #8a7f74;
+		--paper: #faf6ef;
+		--panel: #fffdf8;
+		--line: #e4dccd;
+		--amber: #c2740f;
+		--brick: #a63b2a;
+		--teal: #3f6f6a;
+		--olive: #6f7a3a;
+		--shadow: 0 1px 0 rgba(36, 31, 27, .04), 0 8px 24px -16px rgba(36, 31, 27, .28);
+		--mono: ui-monospace, "SF Mono", "Cascadia Mono", "JetBrains Mono", Menlo, Consolas, monospace;
+		--serif: "Iowan Old Style", "Songti SC", "Source Han Serif SC", Georgia, serif;
+	}
+
+	* { box-sizing: border-box; }
+
+	html, body {
+		margin: 0;
+		padding: 0;
+		background: var(--paper);
+		color: var(--ink);
+		font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+		-webkit-font-smoothing: antialiased;
+	}
+
+	body {
+		background-image:
+			radial-gradient(circle at 12% -10%, rgba(194, 116, 15, .07), transparent 42%),
+			radial-gradient(circle at 92% 4%, rgba(63, 111, 106, .06), transparent 38%);
+		background-repeat: no-repeat;
+	}
+
+	.wrap { max-width: 1080px; margin: 0 auto; padding: 40px 24px 72px; }
+
+	/* ---- masthead ---- */
+	.masthead { border-bottom: 1px solid var(--line); padding-bottom: 22px; margin-bottom: 26px; }
+
+	.kicker {
+		font: 600 11px/1 var(--mono);
+		letter-spacing: .18em;
+		text-transform: uppercase;
+		color: var(--amber);
+		margin-bottom: 14px;
+	}
+
+	h1 {
+		font-family: var(--serif);
+		font-size: 34px;
+		line-height: 1.18;
+		letter-spacing: -.01em;
+		margin: 0 0 10px;
+		font-weight: 600;
+	}
+
+	.lede {
+		margin: 0;
+		max-width: 66ch;
+		color: var(--ink-2);
+		font-size: 14.5px;
+		line-height: 1.65;
+	}
+
+	.lede code {
+		font-family: var(--mono);
+		font-size: .92em;
+		background: rgba(194, 116, 15, .09);
+		padding: 1px 5px;
+		border-radius: 3px;
+	}
+
+	/* ---- tabs ---- */
+	.tabs {
+		display: flex;
+		gap: 2px;
+		flex-wrap: wrap;
+		border-bottom: 1px solid var(--line);
+		margin-bottom: 24px;
+	}
+
+	.tab {
+		appearance: none;
+		border: 0;
+		background: transparent;
+		padding: 9px 13px 10px;
+		font: 500 13px/1 inherit;
+		color: var(--muted);
+		cursor: pointer;
+		border-bottom: 2px solid transparent;
+		margin-bottom: -1px;
+		border-radius: 3px 3px 0 0;
+		transition: color .12s, background .12s;
+	}
+
+	.tab:hover { color: var(--ink-2); background: rgba(36, 31, 27, .03); }
+
+	.tab[aria-selected="true"] {
+		color: var(--ink);
+		border-bottom-color: var(--amber);
+		font-weight: 600;
+	}
+
+	.tab .n {
+		font-family: var(--mono);
+		font-size: 10px;
+		color: var(--muted);
+		margin-right: 5px;
+	}
+
+	/* ---- stage ---- */
+	.stage {
+		background: var(--panel);
+		border: 1px solid var(--line);
+		border-radius: 4px;
+		box-shadow: var(--shadow);
+		padding: 14px 14px 8px;
+		position: relative;
+		overflow: hidden;
+	}
+
+	.stage::before {
+		content: "";
+		position: absolute;
+		inset: 0 0 auto 0;
+		height: 2px;
+		background: linear-gradient(90deg, var(--amber), rgba(194, 116, 15, 0) 62%);
+		opacity: .55;
+	}
+
+	#plot { min-height: 340px; }
+
+	.uplot { font-family: inherit; }
+	.u-legend { font-size: 11.5px; color: var(--ink-2); }
+	.u-legend th { font-weight: 600; }
+
+	/* ---- controls ---- */
+	.controls {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 10px 14px;
+		padding: 14px 2px 6px;
+		border-bottom: 1px solid var(--line);
+		margin-bottom: 14px;
+	}
+
+	.group { display: flex; align-items: center; gap: 7px; }
+	.group-label {
+		font: 600 10px/1 var(--mono);
+		letter-spacing: .1em;
+		text-transform: uppercase;
+		color: var(--muted);
+	}
+
+	button.btn {
+		appearance: none;
+		border: 1px solid var(--line);
+		background: var(--panel);
+		color: var(--ink-2);
+		font: 500 12.5px/1 inherit;
+		padding: 7px 12px;
+		border-radius: 3px;
+		cursor: pointer;
+		transition: border-color .12s, color .12s, background .12s;
+	}
+
+	button.btn:hover { border-color: #cbbfa8; color: var(--ink); }
+	button.btn:active { transform: translateY(1px); }
+
+	button.btn.primary {
+		background: var(--ink);
+		border-color: var(--ink);
+		color: #f7f1e6;
+	}
+
+	button.btn.primary:hover { background: #352d26; color: #fff; }
+
+	button.btn[aria-pressed="true"] {
+		border-color: var(--amber);
+		color: var(--amber);
+		background: rgba(194, 116, 15, .06);
+	}
+
+	button.btn:disabled { opacity: .4; cursor: not-allowed; }
+
+	select, input[type="range"] {
+		font: 500 12.5px/1 inherit;
+		color: var(--ink-2);
+		border: 1px solid var(--line);
+		background: var(--panel);
+		border-radius: 3px;
+		padding: 6px 8px;
+	}
+
+	input[type="range"] { padding: 0; height: 22px; accent-color: var(--amber); width: 130px; }
+
+	input[type="checkbox"] { accent-color: var(--amber); }
+
+	.seg { display: flex; border: 1px solid var(--line); border-radius: 3px; overflow: hidden; }
+
+	.seg button {
+		appearance: none;
+		border: 0;
+		background: var(--panel);
+		color: var(--muted);
+		font: 500 12px/1 inherit;
+		padding: 7px 11px;
+		cursor: pointer;
+		border-right: 1px solid var(--line);
+	}
+
+	.seg button:last-child { border-right: 0; }
+	.seg button[aria-pressed="true"] { background: rgba(194, 116, 15, .1); color: var(--amber); }
+
+	/* ---- readout ---- */
+	.readout {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(148px, 1fr));
+		gap: 1px;
+		background: var(--line);
+		border: 1px solid var(--line);
+		border-radius: 4px;
+		overflow: hidden;
+		margin-bottom: 18px;
+	}
+
+	.cell { background: var(--panel); padding: 11px 12px 12px; }
+
+	.cell .k {
+		font: 600 9.5px/1 var(--mono);
+		letter-spacing: .1em;
+		text-transform: uppercase;
+		color: var(--muted);
+		margin-bottom: 7px;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.cell .v {
+		font: 500 17px/1.1 var(--mono);
+		color: var(--ink);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.cell .v small { font-size: 11px; color: var(--muted); font-weight: 400; }
+
+	.cell.warn .v { color: var(--brick); }
+	.cell.ok .v { color: var(--teal); }
+
+	/* ---- notes ---- */
+	.notes { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+	@media (max-width: 780px) {
+		.notes { grid-template-columns: 1fr; }
+		h1 { font-size: 26px; }
+		.wrap { padding: 26px 16px 56px; }
+	}
+
+	.note {
+		background: rgba(255, 253, 248, .6);
+		border: 1px solid var(--line);
+		border-left: 2px solid var(--amber);
+		padding: 13px 15px;
+		border-radius: 0 3px 3px 0;
+	}
+
+	.note h3 {
+		margin: 0 0 7px;
+		font: 600 11px/1 var(--mono);
+		letter-spacing: .09em;
+		text-transform: uppercase;
+		color: var(--ink-2);
+	}
+
+	.note p, .note ul {
+		margin: 0;
+		font-size: 12.8px;
+		line-height: 1.62;
+		color: var(--ink-2);
+	}
+
+	.note ul { padding-left: 16px; }
+	.note li { margin-bottom: 3px; }
+	.note code { font-family: var(--mono); font-size: .9em; color: var(--brick); }
+
+	.badge {
+		display: inline-block;
+		font: 600 9.5px/1 var(--mono);
+		letter-spacing: .06em;
+		text-transform: uppercase;
+		padding: 3px 6px;
+		border-radius: 2px;
+		background: rgba(63, 111, 106, .12);
+		color: var(--teal);
+	}
+
+	.badge.warn { background: rgba(166, 59, 42, .1); color: var(--brick); }
+
+	table.issues {
+		width: 100%;
+		border-collapse: collapse;
+		font: 12px/1.5 var(--mono);
+		margin-top: 8px;
+	}
+
+	table.issues th, table.issues td {
+		text-align: left;
+		padding: 4px 8px 4px 0;
+		border-bottom: 1px solid var(--line);
+	}
+
+	table.issues th { color: var(--muted); font-weight: 600; font-size: 10px; letter-spacing: .06em; text-transform: uppercase; }
+
+	.timeline {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		padding: 4px 2px 0;
+	}
+
+	.timeline input[type="range"] { flex: 1; width: auto; }
+
+	.crumb {
+		display: flex;
+		align-items: center;
+		gap: 6px;
+		font-size: 12.5px;
+		color: var(--muted);
+		flex-wrap: wrap;
+	}
+
+	.crumb b { color: var(--ink); font-weight: 600; }
+	.crumb span.sep { color: var(--line); }
+
+	.hint {
+		font-size: 12px;
+		color: var(--muted);
+		line-height: 1.5;
+		padding: 2px 0 12px;
+	}
+
+	.hint kbd {
+		font: 500 11px/1 var(--mono);
+		border: 1px solid var(--line);
+		border-bottom-width: 2px;
+		border-radius: 3px;
+		padding: 2px 5px;
+		background: var(--panel);
+		color: var(--ink-2);
+	}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+	<header class="masthead">
+		<div class="kicker">Tempo · Replayable Charts · built on uPlot (MIT)</div>
+		<h1>把静态折线图，变成一条可以倒带的时间轴</h1>
+		<p class="lede">
+			uPlot 用 canvas 把 100 万点画进几毫秒，但它只会“换数据就重画”——没有转场、没有回放、没有层级。
+			Tempo 不改上游一行代码，用 <code>hooks</code> 在外面加了一层：<strong>可打断的数值转场</strong>、<strong>时间轴回放</strong>、
+			<strong>区间钻取</strong>、<strong>结构化筛选</strong>、<strong>有界实时流</strong>，
+			并保证动画只影响<strong>画法</strong>、不影响<strong>读数</strong>。
+		</p>
+	</header>
+
+	<nav class="tabs" role="tablist" id="tabs"></nav>
+
+	<section class="stage">
+		<div id="plot"></div>
+	</section>
+
+	<div class="controls" id="controls"></div>
+	<div class="hint" id="hint"></div>
+
+	<div class="readout" id="readout"></div>
+
+	<div class="notes" id="notes"></div>
+</div>
+
+<script src="./vendor/tempo.iife.min.js"></script>
+<script src="./data.js"></script>
+<script src="./app.js"></script>
+</body>
+</html>
